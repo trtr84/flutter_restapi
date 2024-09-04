@@ -19,7 +19,6 @@ class User {
   factory User.fromMap(Map<String, dynamic> e) {
     final name = UserName.fromMap(e['name']);
     final location = UserLocation.fromMap(e['location']);
-    // final dateBirthday = e['dob']['date'];
     final dob = UserDateOfBirthday.fromMap(e['dob']);
     return User(name, location, dob, gender: e['gender'], email: e['email']);
   }
