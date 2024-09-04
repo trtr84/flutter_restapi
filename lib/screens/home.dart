@@ -10,7 +10,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late List<User> users;
+  List<User> users = [];
   @override
   void initState() {
     fetchUsers();
@@ -35,13 +35,21 @@ class _HomeScreenState extends State<HomeScreen> {
             style: Theme.of(context).appBarTheme.titleTextStyle,
           ),
         ),
-        body: ListView.builder(
+        body: ListView.separated(
+          separatorBuilder: (BuildContext context, int index) =>
+              const Divider(),
           itemCount: users.length,
           itemBuilder: (context, index) {
             final user = users[index];
             return ListTile(
-              title: Text(user.userLocation.number.toString()),
-              subtitle: Text(user.gender),
+              title: Text(
+                'Name: ${user.name.first},\nE-mail: ${user.email},\nAddress: ${user.location.name}',
+                style: const TextStyle(fontSize: 20),
+              ),
+              subtitle: Text(
+                'Age: ${user.dob.age}',
+                style: const TextStyle(fontSize: 18),
+              ),
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 // child: Image.network('${user['picture']['medium']}'),
