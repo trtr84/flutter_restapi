@@ -1,11 +1,6 @@
 import 'dart:convert';
-
-import 'package:flutter_restapi/model/user_date_of_birthday.dart';
-import 'package:flutter_restapi/model/user_location.dart';
-import 'package:flutter_restapi/model/user_name.dart';
 import 'package:http/http.dart' as http;
-
-import '../model/user.dart';
+import '../model/user/user.dart';
 
 class UserApi {
   Future<List<User>> fetchUsers() async {
