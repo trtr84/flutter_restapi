@@ -2,15 +2,13 @@
 import 'dart:convert';
 
 class UserName {
-  final String title;
   final String first;
   final String last;
 
-  UserName({required this.title, required this.first, required this.last});
+  UserName({required this.first, required this.last});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'title': title,
       'first': first,
       'last': last,
     };
@@ -18,7 +16,6 @@ class UserName {
 
   factory UserName.fromMap(Map<String, dynamic> map) {
     return UserName(
-      title: map['title'] as String,
       first: map['first'] as String,
       last: map['last'] as String,
     );

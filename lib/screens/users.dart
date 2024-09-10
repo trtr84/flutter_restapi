@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_restapi/model/user/user.dart';
 import 'package:flutter_restapi/service/user_api.dart';
+import 'package:flutter_restapi/service/user_service.dart';
+import 'package:get_it/get_it.dart';
 
 class UsersScreen extends StatefulWidget {
   const UsersScreen({super.key});
@@ -10,18 +12,24 @@ class UsersScreen extends StatefulWidget {
 }
 
 class _UsersScreenState extends State<UsersScreen> {
-  List<User> users = [];
+  // List<User> users = [];
+  final userService = GetIt.instance<UserService>();
+
   @override
   void initState() {
     fetchUsers();
+
     super.initState();
   }
 
   Future<void> fetchUsers() async {
-    final usersResult = await UserApi().fetchUsers();
-    setState(() {
-      users = usersResult;
-    });
+    try {
+      final usersResult = await UserApi().fetchUsers();
+      userService.setUsers(usersResult);
+      setState(() {});
+    } catch (e) {
+      print('Error fetching users: $e');
+    }
   }
 
   @override
@@ -34,11 +42,20 @@ class _UsersScreenState extends State<UsersScreen> {
           style: Theme.of(context).appBarTheme.titleTextStyle,
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final result = await Navigator.of(context).pushNamed('/addUsers');
+          if (result == true) {
+            setState(() {});
+          }
+        },
+        child: const Icon(Icons.person_add),
+      ),
       body: ListView.separated(
         separatorBuilder: (BuildContext context, int index) => const Divider(),
-        itemCount: users.length,
+        itemCount: userService.users.length,
         itemBuilder: (context, index) {
-          final user = users[index];
+          final user = userService.users[index];
           return ListTile(
             title: Text(
               'Name: ${user.name.first},\nE-mail: ${user.email},\nAddress: ${user.location.name}',
@@ -50,7 +67,7 @@ class _UsersScreenState extends State<UsersScreen> {
             ),
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(100),
-              child: Image.network(user.userPicture.thumbnail),
+              // child: Image.network(user.userPicture.thumbnail),
             ),
           );
         },

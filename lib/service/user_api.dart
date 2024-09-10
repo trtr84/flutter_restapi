@@ -13,7 +13,6 @@ class UserApi {
     final transformed = result.map((e) {
       return User.fromMap(e);
     }).toList();
-    final users = transformed;
-    return users;
+    return transformed;
   }
 }

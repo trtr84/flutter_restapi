@@ -2,21 +2,18 @@
 import 'dart:convert';
 
 class UserLocation {
-  final int number;
   final String name;
 
-  UserLocation({required this.number, required this.name});
+  UserLocation({required this.name});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'number': number,
       'name': name,
     };
   }
 
   factory UserLocation.fromMap(Map<String, dynamic> map) {
     return UserLocation(
-      number: map['street']['number'] as int,
       name: map['street']['name'] as String,
     );
   }
